@@ -6,6 +6,7 @@ int	main(int ac, char const **av)
 
 	if (!init(&sys, av, ac))
 		return (0);
-
+	
+	print_config(&sys);
 	return (0);
 }

@@ -32,7 +32,6 @@ typedef struct s_sys
 	unsigned int	time_to_die;
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
-	unsigned int	time_to_think;
 
 	unsigned int	start_time;
 
@@ -43,6 +42,7 @@ typedef struct s_sys
 /* Functions */
 
 int		s_error(char *msg, int ret);
+void	print_config(t_sys *sys);
 
 void	s_putstr_fd(char *str, int fd);
 void	s_putchar_fd(char c, int fd);

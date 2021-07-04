@@ -9,7 +9,7 @@ CFLAGS		=	-g
 LIBS		=	-lpthread
  
 SRCS		=	srcs/main.c \
-				srcs/s_error.c \
+				srcs/print.c \
 				srcs/init.c \
 				srcs/utils/s_putstr_fd.c \
 				srcs/utils/s_putchar_fd.c \

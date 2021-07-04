@@ -8,6 +8,7 @@ static int	init_philosopher(t_p *p, size_t id)
 	p->is_eating = 0;
 	if (pthread_mutex_init(&(p->fork), NULL))
 		return (0);
+	return (1);
 }
 
 int	init(t_sys *sys, char const **av, int ac)
@@ -16,13 +17,12 @@ int	init(t_sys *sys, char const **av, int ac)
 
 	if (ac < 2 || ac > 6)
 		return (s_error("args problem!", 0));
-
-	sys->philo_amount = s_atoi(av[0]);
-	sys->time_to_die = s_atoi(av[1]);
-	sys->time_to_eat = s_atoi(av[2]);
-	sys->time_to_sleep = s_atoi(av[3]);
+	sys->philo_amount = s_atoi(av[1]);
+	sys->time_to_die = s_atoi(av[2]);
+	sys->time_to_eat = s_atoi(av[3]);
+	sys->time_to_sleep = s_atoi(av[4]);
 	if (ac == 6)
-		sys->eat_amount = s_atoi(av[4]);
+		sys->eat_amount = s_atoi(av[5]);
 	else
 		sys->eat_amount = 0;
 
