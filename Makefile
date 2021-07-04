@@ -10,12 +10,11 @@ LIBS		=	-lpthread
  
 SRCS		=	srcs/main.c \
 				srcs/s_error.c \
+				srcs/init.c \
 				srcs/utils/s_putstr_fd.c \
 				srcs/utils/s_putchar_fd.c \
 				srcs/utils/s_atoi.c \
 				srcs/utils/s_bzero.c \
-				srcs/philo/init.c \
-				srcs/philo/tasks.c \
 
 OBJS		=	$(SRCS:.c=.o)
 
