@@ -4,7 +4,7 @@ HEADER		=	./includes/
 
 CC			=	gcc 
 
-CFLAGS		=	-g --sanitize=thread
+CFLAGS		=	-g
 
 LIBS		=	-lpthread
  
@@ -12,6 +12,7 @@ SRCS		=	srcs/main.c \
 				srcs/print.c \
 				srcs/init.c \
 				srcs/tasks.c \
+				srcs/event.c \
 				srcs/utils/s_putstr_fd.c \
 				srcs/utils/s_putchar_fd.c \
 				srcs/utils/s_putnbr_fd.c \

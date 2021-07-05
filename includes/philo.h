@@ -29,41 +29,47 @@
 
 typedef struct s_p
 {
-	size_t		id;
-
-	int				is_eating;
-	int				is_death;
-	unsigned int	eat_time;
-
-	pthread_t		thread;
-}				t_p;
-
-typedef struct s_sys
-{
 	size_t			id;
 
-	size_t			philo_amount;
-	size_t			eat_amount;
-	unsigned int	time_to_die;
-	unsigned int	time_to_eat;
-	unsigned int	time_to_sleep;
+	size_t			last_meal_time;
+	size_t			count_meals;
+	char			is_eating;
+	char			fork_used;
+	char			must_eat_check;
 
-	unsigned int	start_time;
+	pthread_t		thread;
+	pthread_mutex_t	fork;
+	pthread_mutex_t	eat_m;
+}				t_p;
 
-	t_p				*p;
-	pthread_mutex_t	lock;
-	pthread_mutex_t	*forks;
-}				t_sys;
+typedef struct s_s
+{
+	size_t	id;
+
+	size_t	amount;
+	size_t	eat_amount;
+	size_t	time_to_die;
+	size_t	time_to_eat;
+	size_t	time_to_sleep;
+
+	size_t	timestamp;
+
+	t_p		*p;
+
+	pthread_mutex_t	mutex;
+	pthread_mutex_t	write_m;
+	pthread_mutex_t	event_m;
+
+	pthread_t		event;
+}				t_s;
+
 
 /*
 **	Functions
 */
 
 /* print */
-int				s_error(char *msg, int ret);
-void			print_config(t_sys *sys);
-char			*get_msg_type(int type);
-void			msg(t_sys *sys, size_t id, int type);
+void			msg(t_s *s, size_t id, char type);
 
 /* utils */
 void			s_putstr_fd(char *str, int fd);
@@ -74,9 +80,13 @@ unsigned int	get_time(void);
 void    		s_putnbr_fd(unsigned long int u, int fd);
 
 /* init */
-int				init(t_sys *sys, char const **av, int ac);
+char			init(t_s *s, char const **av, int ac);
+
 
 /* tasks */
-void    		*tasks(void *sys_v);
+void			*tasks(void *s_v);
+
+/* event */
+void    		*event(void *s_v);
 
 #endif

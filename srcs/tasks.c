@@ -1,44 +1,54 @@
 #include "../includes/philo.h"
 
-static void	take_fork(t_sys *sys, size_t id)
+static void	take_fork(t_s *s, size_t id)
 {
-	pthread_mutex_lock(&(sys->forks[id]));
-	pthread_mutex_lock(&(sys->forks[(id + 1) % sys->philo_amount]));
-	msg(sys, id, TYPE_FORK);
+	pthread_mutex_lock(&(s->p[id].fork));
+	pthread_mutex_lock(&(s->p[(id + 1) % s->amount].fork));
+	msg(s, id, TYPE_FORK);
 }
 
-static void	eat(t_sys *sys, size_t id)
+static void	eat(t_s *s, size_t id)
 {
-	sys->p[id].is_eating = 1;
-	sys->p[id].eat_time = get_time();
-	msg(sys, id, TYPE_EAT);
-	usleep(sys->time_to_eat * 1000);
-	sys->p[id].is_eating = 0;
+	msg(s, id, TYPE_EAT);
+	pthread_mutex_lock(&(s->mutex));
+	s->p[id].is_eating = 1;
+	s->p[id].last_meal_time = get_time();
+	(s->p[id].count_meals)++;
+	if (s->p[id].count_meals > s->eat_amount)
+	{
+		usleep(s->time_to_die);
+	}
+	pthread_mutex_unlock(&(s->mutex));
+	usleep(s->time_to_eat * 1000);
+	pthread_mutex_lock(&(s->mutex));
+	s->p[id].is_eating = 0;
+	pthread_mutex_unlock(&(s->mutex));
 }
 
-static void	put_fork(t_sys *sys, size_t id)
+static void	put_fork(t_s *s, size_t id)
 {
-	pthread_mutex_unlock(&(sys->forks[id]));
-	pthread_mutex_unlock(&(sys->forks[(id + 1) % sys->philo_amount]));
-	msg(sys, id, TYPE_SLEEP);
-	usleep(sys->time_to_sleep * 1000);
+	pthread_mutex_unlock(&(s->p[id].fork));
+	pthread_mutex_unlock(&(s->p[(id + 1) % s->amount].fork));
+	msg(s, id, TYPE_SLEEP);
+	usleep(s->time_to_sleep * 1000);
 }
 
-void	*tasks(void *sys_v)
+void	*tasks(void *s_v)
 {
-	t_sys	*sys;
-	size_t  id;
+	t_s				*s;
+	size_t			id;
 
-	sys = (t_sys *)sys_v;
-	pthread_mutex_lock(&(sys->lock));
-	sys->id++;
-	id = sys->id;
-	pthread_mutex_unlock(&(sys->lock));
+	s = (t_s *)s_v;
+	pthread_mutex_lock(&(s->mutex));
+	s->id++;
+	id = s->id;
+	pthread_mutex_unlock(&(s->mutex));
 	while (1)
 	{
-		take_fork(sys, id);
-		eat(sys, id);
-		put_fork(sys, id);
-		msg(sys, id, TYPE_THINK);
+		take_fork(s, id);
+		eat(s, id);
+		put_fork(s, id);
+		msg(s, id, TYPE_THINK);
 	}
+	return (void *)0;
 }
