@@ -27,7 +27,6 @@
 **	Structures
 */
 
-
 typedef struct s_p
 {
 	size_t			id;
@@ -46,15 +45,15 @@ typedef struct s_p
 
 typedef struct s_s
 {
-	size_t	amount;
-	size_t	eat_amount;
-	size_t	time_to_die;
-	size_t	time_to_eat;
-	size_t	time_to_sleep;
-	size_t	start_time;
+	size_t			amount;
+	size_t			eat_amount;
+	size_t			time_to_die;
+	size_t			time_to_eat;
+	size_t			time_to_sleep;
+	size_t			start_time;
 
-	char	someone_died;
-	char	must_eat;
+	char			someone_died;
+	char			must_eat;
 
 	pthread_mutex_t	write_m;
 
@@ -82,7 +81,7 @@ void			s_putnbr_fd(unsigned long int u, int fd);
 size_t			s_strlen(const char *str);
 
 /* init */
-char	init(t_s *s, char const **av, int ac);
+char			init(t_s *s, char const **av, int ac);
 
 /* tasks */
 void			*tasks(void *p_v);

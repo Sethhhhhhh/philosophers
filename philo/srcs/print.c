@@ -18,7 +18,7 @@ char	*get_msg_type(char type)
 
 void	msg(t_p *p, char type)
 {
-    pthread_mutex_lock(&(p->s->write_m));
+	pthread_mutex_lock(&(p->s->write_m));
 	if (p->s->someone_died)
 	{
 		pthread_mutex_unlock(&(p->s->write_m));

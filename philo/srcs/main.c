@@ -30,7 +30,8 @@ static char	create_threads(t_s *s)
 	i = -1;
 	while (++i < s->amount)
 	{
-		if (pthread_create(&(s->p[i].thread), NULL, &tasks, (void *)(&(s->p[i]))))
+		if (pthread_create(&(s->p[i].thread),
+				NULL, &tasks, (void *)(&(s->p[i]))))
 			return (0);
 		pthread_detach(s->p[i].thread);
 		usleep(1000);

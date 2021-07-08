@@ -3,13 +3,13 @@
 static void	take_fork(t_p *p)
 {
 	if (p->s->someone_died || (p->last_eat_time > 0
-		&& (get_time(&(p->tv)) - p->last_eat_time) > p->s->time_to_die))
+			&& (get_time(&(p->tv)) - p->last_eat_time) > p->s->time_to_die))
 	{
 		pthread_exit(0);
 	}
 	pthread_mutex_lock(&(p->fork));
 	if (p->s->someone_died || (p->last_eat_time > 0
-		&& (get_time(&(p->tv)) - p->last_eat_time) > p->s->time_to_die))
+			&& (get_time(&(p->tv)) - p->last_eat_time) > p->s->time_to_die))
 	{
 		pthread_mutex_unlock(&(p->fork));
 		pthread_exit(0);
@@ -17,7 +17,7 @@ static void	take_fork(t_p *p)
 	msg(p, TYPE_FORK);
 	pthread_mutex_lock(&(p->s->p[(p->id + 1) % p->s->amount].fork));
 	if (p->s->someone_died || (p->last_eat_time > 0
-		&& (get_time(&(p->tv)) - p->last_eat_time) > p->s->time_to_die))
+			&& (get_time(&(p->tv)) - p->last_eat_time) > p->s->time_to_die))
 	{
 		pthread_mutex_unlock(&(p->fork));
 		pthread_mutex_unlock(&(p->s->p[(p->id + 1) % p->s->amount].fork));
@@ -46,9 +46,8 @@ static void	put_fork(t_p *p)
 	pthread_mutex_unlock(&(p->fork));
 	pthread_mutex_unlock(&(p->s->p[(p->id + 1) % p->s->amount].fork));
 	p->is_eating = 0;
-
 	if (p->s->someone_died || (p->last_eat_time > 0
-		&& (get_time(&(p->tv)) - p->last_eat_time) > p->s->time_to_die))
+			&& (get_time(&(p->tv)) - p->last_eat_time) > p->s->time_to_die))
 		pthread_exit(0);
 	msg(p, TYPE_SLEEP);
 	usleep(1000 * p->s->time_to_sleep);
@@ -65,7 +64,7 @@ void	*tasks(void *p_s)
 		eat(p);
 		put_fork(p);
 		if (p->s->someone_died || (p->last_eat_time > 0
-			&& (get_time(&(p->tv)) - p->last_eat_time) > p->s->time_to_die))
+				&& (get_time(&(p->tv)) - p->last_eat_time) > p->s->time_to_die))
 			pthread_exit(0);
 		msg(p, TYPE_THINK);
 	}
