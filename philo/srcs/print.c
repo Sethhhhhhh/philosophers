@@ -24,7 +24,7 @@ void	msg(t_p *p, char type)
 		pthread_mutex_unlock(&(p->s->write_m));
 		return ;
 	}
-	s_putnbr_fd(get_time() - p->s->start_time, 1);
+	s_putnbr_fd(get_time(&(p->tv)) - p->s->start_time, 1);
 	s_putchar_fd(' ', 1);
 	s_putnbr_fd((p->id + 1), 1);
 	s_putstr_fd(get_msg_type(type), 1);

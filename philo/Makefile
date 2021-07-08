@@ -6,7 +6,7 @@ CC			=	gcc
 
 CFLAGS		=	-g
 
-LIBS		=	-lpthread -fsanitize=thread
+LIBS		=	-lpthread
  
 SRCS		=	srcs/main.c \
 				srcs/print.c \

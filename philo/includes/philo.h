@@ -40,6 +40,7 @@ typedef struct s_p
 	pthread_t		thread;
 	pthread_mutex_t	fork;
 
+	struct timeval	tv;
 	struct s_s		*s;
 }				t_p;
 
@@ -59,6 +60,7 @@ typedef struct s_s
 
 	pthread_t		event;
 
+	struct timeval	tv;
 	t_p				*p;
 }				t_s;
 
@@ -75,7 +77,7 @@ void			s_putstr_fd(char *str, int fd);
 void			s_putchar_fd(char c, int fd);
 long			s_atoi(const char *str);
 void			s_bzero(void *s, size_t n);
-unsigned int	get_time(void);
+unsigned int	get_time(struct timeval *tv);
 void			s_putnbr_fd(unsigned long int u, int fd);
 size_t			s_strlen(const char *str);
 

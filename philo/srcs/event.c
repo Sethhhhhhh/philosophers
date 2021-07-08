@@ -13,7 +13,7 @@ void	*event(void *s_v)
         count_must = 0;
         while (i < s->amount)
         {
-            if (!s->someone_died && s->p[i].last_eat_time > 0 && get_time() - s->p[i].last_eat_time > s->time_to_die)
+            if (!s->someone_died && s->p[i].last_eat_time > 0 && get_time(&(s->tv)) - s->p[i].last_eat_time > s->time_to_die)
             {
                 msg(&(s->p[i]), TYPE_DIE);
                 s->someone_died = 1;

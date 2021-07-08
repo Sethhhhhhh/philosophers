@@ -58,7 +58,7 @@ static char	set_args(t_s *s, char const **av, int ac)
 	}
 	else
 		s->eat_amount = 0;
-	s->start_time = get_time();
+	s->start_time = get_time(&(s->tv));
 	s->someone_died = 0;
 	s->must_eat = 0;
 	return (1);
