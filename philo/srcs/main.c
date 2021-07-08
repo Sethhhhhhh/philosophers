@@ -27,18 +27,21 @@ static char	create_threads(t_s *s)
 {
 	size_t	i;
 
+	if (pthread_create(&(s->event), NULL, &event, (void *)(s)))
+		return (0);
+	pthread_detach(s->event);
 	i = -1;
 	while (++i < s->amount)
 	{
 		if (pthread_create(&(s->p[i].thread),
 				NULL, &tasks, (void *)(&(s->p[i]))))
 			return (0);
-		pthread_detach(s->p[i].thread);
 		usleep(1000);
 	}
-	if (pthread_create(&(s->event), NULL, &event, (void *)(s)))
-		return (0);
-	pthread_join(s->event, NULL);
+	i = -1;
+	while (++i < s->amount)
+		if (pthread_join(s->p[i].thread, NULL))
+			return (0);
 	return (1);
 }
 
