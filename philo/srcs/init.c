@@ -2,11 +2,7 @@
 
 static char	init_mutex(t_s *s)
 {
-	if (pthread_mutex_init(&(s->mutex), NULL))
-		return (0);
 	if (pthread_mutex_init(&(s->write_m), NULL))
-		return (0);
-	if (pthread_mutex_init(&(s->event_m), NULL))
 		return (0);
 	return (1);
 }
@@ -21,13 +17,13 @@ static char	init_philosophers(t_s *s)
 	i = 0;
 	while (i < s->amount)
 	{
+		s->p[i].id = i;
+		s->p[i].is_death = 0;
+		s->p[i].s = s;
 		s->p[i].is_eating = 0;
-		s->p[i].last_meal_time = get_time();
-		s->p[i].count_meals = 0;
-		s->p[i].must_eat_check = 0;
+		s->p[i].count_eat = 0;
+		s->p[i].last_eat_time = 0;
 		if (pthread_mutex_init(&(s->p[i].fork), NULL))
-			return (0);
-		if (pthread_mutex_init(&(s->p[i].eat_m), NULL))
 			return (0);
 		i++;
 	}
@@ -62,6 +58,9 @@ static char	set_args(t_s *s, char const **av, int ac)
 	}
 	else
 		s->eat_amount = 0;
+	s->start_time = get_time();
+	s->someone_died = 0;
+	s->must_eat = 0;
 	return (1);
 }
 
@@ -69,9 +68,9 @@ char	init(t_s *s, char const **av, int ac)
 {
 	if (!set_args(s, av, ac))
 		return (0);
-	s->timestamp = get_time();
-	s->id = -1;
-	if (!init_philosophers(s) || !init_mutex(s))
+	if (!init_mutex(s))
+		return (0);
+	if (!init_philosophers(s))
 		return (0);
 	return (1);
 }

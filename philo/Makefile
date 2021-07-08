@@ -1,12 +1,12 @@
 NAME		=	philo
 
-HEADER		=	./includes/
+HEADER		=	./includes/philo.h
 
 CC			=	gcc 
 
 CFLAGS		=	-g
 
-LIBS		=	-lpthread
+LIBS		=	-lpthread -fsanitize=thread
  
 SRCS		=	srcs/main.c \
 				srcs/print.c \
