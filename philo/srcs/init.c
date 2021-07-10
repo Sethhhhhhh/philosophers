@@ -2,8 +2,24 @@
 
 static char	init_mutex(t_s *s)
 {
+	size_t	i;
+
 	if (pthread_mutex_init(&(s->write_m), NULL))
 		return (0);
+	if (pthread_mutex_init(&(s->lock_m), NULL))
+		return (0);
+	if (pthread_mutex_init(&(s->death_m), NULL))
+		return (0);
+	s->forks = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t) * s->amount);
+	if (!s->forks)
+		return (0);
+	i = 0;
+	while (i < s->amount)
+	{
+		if (pthread_mutex_init(&(s->forks[i]), NULL))
+			return (0);
+		i++;
+	}
 	return (1);
 }
 
@@ -18,13 +34,11 @@ static char	init_philosophers(t_s *s)
 	while (i < s->amount)
 	{
 		s->p[i].id = i;
-		s->p[i].is_death = 0;
 		s->p[i].s = s;
 		s->p[i].is_eating = 0;
 		s->p[i].count_eat = 0;
-		s->p[i].last_eat_time = 0;
-		if (pthread_mutex_init(&(s->p[i].fork), NULL))
-			return (0);
+		s->p[i].last_eat_time = get_time();
+		s->p[i].must_eat = 0;
 		i++;
 	}
 	return (1);
@@ -58,7 +72,7 @@ static char	set_args(t_s *s, char const **av, int ac)
 	}
 	else
 		s->eat_amount = 0;
-	s->start_time = get_time(&(s->tv));
+	s->start_time = get_time();
 	s->someone_died = 0;
 	s->must_eat = 0;
 	return (1);

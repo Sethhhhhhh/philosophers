@@ -33,13 +33,11 @@ typedef struct s_p
 	size_t			last_eat_time;
 	size_t			count_eat;
 
+	char			must_eat;
 	char			is_eating;
-	char			is_death;
 
 	pthread_t		thread;
-	pthread_mutex_t	fork;
 
-	struct timeval	tv;
 	struct s_s		*s;
 }				t_p;
 
@@ -55,11 +53,12 @@ typedef struct s_s
 	char			someone_died;
 	char			must_eat;
 
+	pthread_mutex_t	death_m;
 	pthread_mutex_t	write_m;
+	pthread_mutex_t	lock_m;
+	pthread_mutex_t	*forks;
 
-	pthread_t		event;
-
-	struct timeval	tv;
+	pthread_t		death;
 	t_p				*p;
 }				t_s;
 
@@ -76,9 +75,10 @@ void			s_putstr_fd(char *str, int fd);
 void			s_putchar_fd(char c, int fd);
 long			s_atoi(const char *str);
 void			s_bzero(void *s, size_t n);
-unsigned int	get_time(struct timeval *tv);
+unsigned int	get_time(void);
 void			s_putnbr_fd(unsigned long int u, int fd);
 size_t			s_strlen(const char *str);
+void			s_usleep(unsigned int time_in_ms);
 
 /* init */
 char			init(t_s *s, char const **av, int ac);
@@ -87,6 +87,6 @@ char			init(t_s *s, char const **av, int ac);
 void			*tasks(void *p_v);
 
 /* event */
-void			*event(void *s_v);
+void			*death(void *s_v);
 
 #endif
