@@ -4,7 +4,7 @@ void	clear(t_s *s)
 {
 	size_t	i;
 
-	if (s->p)
+	if (s->p && s->amount > 0)
 	{
 		i = 0;
 		while (i < s->amount)
@@ -13,8 +13,8 @@ void	clear(t_s *s)
 			i++;
 		}
 		free(s->p);
+		pthread_mutex_destroy(&(s->write_m));
 	}
-	pthread_mutex_destroy(&(s->write_m));
 }
 
 int	s_error(char *msg)
@@ -55,6 +55,13 @@ int	main(int ac, char const **av)
 	{
 		clear(&s);
 		return (s_error("init error!\n"));
+	}
+	if (s.amount == 1)
+	{
+		msg(&(s.p[0]), TYPE_FORK);
+		msg(&(s.p[0]), TYPE_DIE);
+		clear(&s);
+		return (0);
 	}
 	if (!create_threads(&s))
 	{

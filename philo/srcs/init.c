@@ -66,11 +66,12 @@ static char	set_args(t_s *s, char const **av, int ac)
 
 char	init(t_s *s, char const **av, int ac)
 {
+	s->p = NULL;
 	if (!set_args(s, av, ac))
 		return (0);
-	if (!init_mutex(s))
-		return (0);
 	if (!init_philosophers(s))
+		return (0);
+	if (!init_mutex(s))
 		return (0);
 	return (1);
 }
