@@ -17,7 +17,6 @@ SRCS		=	srcs/main.c \
 				srcs/utils/s_putchar_fd.c \
 				srcs/utils/s_putnbr_fd.c \
 				srcs/utils/s_atoi.c \
-				srcs/utils/s_bzero.c \
 				srcs/utils/s_strlen.c \
 				srcs/utils/get_time.c \
 

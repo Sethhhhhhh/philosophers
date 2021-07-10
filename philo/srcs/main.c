@@ -31,7 +31,7 @@ void	clear(t_s *s)
 
 int	s_error(char *msg)
 {
-	write(2, msg, s_strlen(msg));
+	s_putstr_fd(msg, 2);
 	return (1);
 }
 
@@ -61,7 +61,7 @@ int	main(int ac, char const **av)
 	t_s	s;
 
 	if (ac < 5 || ac > 6)
-		return (s_error("s error!\n"));
+		return (s_error("args error!\n"));
 	if (!init(&s, av, ac))
 	{
 		clear(&s);
@@ -70,7 +70,7 @@ int	main(int ac, char const **av)
 	if (!create_threads(&s))
 	{
 		clear(&s);
-		return (0);
+		return (s_error("threads error!\n"));
 	}
 	pthread_mutex_lock(&(s.death_m));
 	pthread_mutex_unlock(&(s.death_m));
