@@ -37,4 +37,5 @@ void	*death(void *s_v)
 		check(s, &i);
 		usleep(100);
 	}
+	return ((void *)0);
 }

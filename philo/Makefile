@@ -2,9 +2,9 @@ NAME		=	philo
 
 HEADER		=	./includes/philo.h
 
-CC			=	gcc 
+CC		=	clang 
 
-CFLAGS		=	-g
+CFLAGS		=	-g -Wall -Wextra -Werror
 
 LIBS		=	-lpthread
  

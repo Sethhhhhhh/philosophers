@@ -12,8 +12,7 @@ char	*get_msg_type(char type)
 		return (" is thinking\n");
 	else if (type == TYPE_DIE)
 		return (" died\n");
-	else if (type == TYPE_OVER)
-		return ("All the philosophers had eat enough.\n");
+	return ("All the philosophers had eat enough.\n");
 }
 
 void	msg(t_p *p, char type)

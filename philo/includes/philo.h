@@ -49,9 +49,9 @@ typedef struct s_s
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	size_t			start_time;
-
+	size_t			must_eat;
+	
 	char			someone_died;
-	char			must_eat;
 
 	pthread_mutex_t	death_m;
 	pthread_mutex_t	write_m;
